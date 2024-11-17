@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648042091870",
+    "project_id": "perfecto-fitness",
+    "storage_bucket": "perfecto-fitness.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648042091870:android:aff37797d6d5dac6766bcf",
+        "android_client_info": {
+          "package_name": "com.codeforany.fitness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSTsTfoLZQIWlzwh83UokPcJYMz753BfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

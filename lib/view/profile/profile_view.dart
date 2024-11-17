@@ -1,4 +1,7 @@
+import 'package:fitness/bloc/auth_bloc.dart';
+import 'package:fitness/bloc/auth_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/colo_extension.dart';
 import '../../common_widget/round_button.dart';
@@ -50,8 +53,21 @@ class _ProfileViewState extends State<ProfileView> {
               color: TColor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
         actions: [
-          InkWell(
-            onTap: () {},
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'logout') {
+                // Handle logout action
+                context.read<AuthBloc>().add(const AuthEventLogout());
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Text('Logout'),
+                ),
+              ];
+            },
             child: Container(
               margin: const EdgeInsets.all(8),
               height: 40,
@@ -67,7 +83,7 @@ class _ProfileViewState extends State<ProfileView> {
                 fit: BoxFit.contain,
               ),
             ),
-          )
+          ),
         ],
       ),
       backgroundColor: TColor.white,
@@ -273,11 +289,10 @@ class _ProfileViewState extends State<ProfileView> {
                                     Positioned(
                                         left: 10.0,
                                         right: 10.0,
-                                        
                                         height: 30.0,
                                         child: DecoratedBox(
                                           decoration: BoxDecoration(
-                                             gradient: LinearGradient(
+                                            gradient: LinearGradient(
                                                 colors: TColor.secondaryG),
                                             borderRadius:
                                                 const BorderRadius.all(
