@@ -8,6 +8,7 @@ import 'package:fitness/view/login/login_view.dart';
 import 'package:fitness/view/login/signup_view.dart';
 import 'package:fitness/view/login/verify_email_view.dart';
 import 'package:fitness/view/main_tab/main_tab_view.dart';
+import 'package:fitness/view/on_boarding/on_boarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,7 +66,11 @@ class HomePage extends StatelessWidget {
         LoadingScreen().hide();
       }
     }, builder: (context, state) {
-      if (state is AuthStateLoggedIn) {
+      if (state is AuthStateOnboarding) {
+        return const OnBoardingView();
+      } else if (state is AuthStateOnboardingComplete) {
+        return const LoginView();
+      } else if (state is AuthStateLoggedIn) {
         return const MainTabView();
       } else if (state is AuthStateNeedsVerification) {
         return const VerifyEmailView();

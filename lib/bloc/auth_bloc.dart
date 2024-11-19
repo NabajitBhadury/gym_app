@@ -93,18 +93,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await provider.initialize();
       final user =
           await (provider as FirebaseAuthProvider).getCurrentUserWithDetails();
-      if (user == null) {
-        emit(const AuthStateLoggedOut(
-          exception: null,
-          isLoading: false,
-        ));
+      final hasCompletedOnboarding = await provider.hasCompletedOnboarding();
+
+      if (!hasCompletedOnboarding) {
+        emit(const AuthStateOnboarding(isLoading: false));
+      } else if (user == null) {
+        emit(const AuthStateLoggedOut(exception: null, isLoading: false));
       } else if (!user.isEmailVerified) {
         emit(const AuthStateNeedsVerification(isLoading: false));
       } else {
-        emit(AuthStateLoggedIn(
-          user: user,
-          isLoading: false,
-        ));
+        emit(AuthStateLoggedIn(user: user, isLoading: false));
       }
     });
 
@@ -156,6 +154,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthStateLoggedOut(exception: e, isLoading: false),
         );
       }
+    });
+
+    on<AuthEventStartOnboarding>((event, emit) {
+      emit(const AuthStateOnboarding(isLoading: false));
+    });
+
+    on<AuthEventCompleteOnboarding>((event, emit) async {
+      await provider.setOnboardingComplete();
+      emit(const AuthStateOnboardingComplete(isLoading: false));
     });
   }
 }

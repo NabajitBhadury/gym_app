@@ -26,4 +26,7 @@ abstract class AuthProvider {
   Future<AuthUser> refreshUser(
     AuthUser user,
   );
+
+  Future<bool> hasCompletedOnboarding();
+  Future<void> setOnboardingComplete();
 }

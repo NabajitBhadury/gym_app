@@ -54,4 +54,10 @@ class AuthService implements AuthProvider {
       provider.refreshUser(
         user,
       );
+
+  @override
+  Future<bool> hasCompletedOnboarding() => provider.hasCompletedOnboarding();
+
+  @override
+  Future<void> setOnboardingComplete() => provider.setOnboardingComplete();
 }

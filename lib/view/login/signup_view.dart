@@ -20,6 +20,8 @@ class _SignUpViewState extends State<SignUpView> {
   late final TextEditingController _emailcontroller;
   late final TextEditingController _passwordcontroller;
   late final TextEditingController _confirmPasswordcontroller;
+  bool obscurepasswordText = true;
+  bool obscureconfpasswordText = true;
 
   void initState() {
     _emailcontroller = TextEditingController();
@@ -118,21 +120,25 @@ class _SignUpViewState extends State<SignUpView> {
                   RoundTextField(
                     hitText: "Password",
                     icon: "assets/img/lock.png",
-                    obscureText: true,
+                    obscureText: obscurepasswordText,
                     controller: _passwordcontroller,
                     rigtIcon: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            obscurepasswordText = !obscurepasswordText;
+                          });
+                        },
                         child: Container(
-                            alignment: Alignment.center,
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                              "assets/img/show_password.png",
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.contain,
-                              color: TColor.gray,
-                            ))),
+                          alignment: Alignment.center,
+                          width: 20,
+                          height: 20,
+                          child: obscurepasswordText
+                              ? Image.asset("assets/img/show_password.png")
+                              : const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.black,
+                                ),
+                        )),
                   ),
                   SizedBox(
                     height: media.width * 0.04,
@@ -140,21 +146,25 @@ class _SignUpViewState extends State<SignUpView> {
                   RoundTextField(
                     hitText: "Confirm Password",
                     icon: "assets/img/lock.png",
-                    obscureText: true,
+                    obscureText: obscureconfpasswordText,
                     controller: _confirmPasswordcontroller,
                     rigtIcon: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            obscureconfpasswordText = !obscureconfpasswordText;
+                          });
+                        },
                         child: Container(
-                            alignment: Alignment.center,
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                              "assets/img/show_password.png",
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.contain,
-                              color: TColor.gray,
-                            ))),
+                          alignment: Alignment.center,
+                          width: 20,
+                          height: 20,
+                          child: obscureconfpasswordText
+                              ? Image.asset("assets/img/show_password.png")
+                              : const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.black,
+                                ),
+                        )),
                   ),
                   Row(
                     // crossAxisAlignment: CrossAxisAlignment.,

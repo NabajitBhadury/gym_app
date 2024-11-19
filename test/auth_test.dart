@@ -159,4 +159,16 @@ class MockAuthProvider implements AuthProvider {
   AuthUser? get user {
     return _user;
   }
+
+  @override
+  Future<bool> hasCompletedOnboarding() {
+    // TODO: implement hasCompletedOnboarding
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setOnboardingComplete() {
+    // TODO: implement setOnboardingComplete
+    throw UnimplementedError();
+  }
 }

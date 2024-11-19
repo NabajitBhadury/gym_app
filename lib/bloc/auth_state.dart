@@ -67,3 +67,11 @@ class AuthStateForgotPassword extends AuthState {
     required this.hasSentEmail,
   });
 }
+
+class AuthStateOnboarding extends AuthState {
+  const AuthStateOnboarding({required super.isLoading});
+}
+
+class AuthStateOnboardingComplete extends AuthState {
+  const AuthStateOnboardingComplete({required super.isLoading});
+}

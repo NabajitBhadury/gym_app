@@ -4,6 +4,7 @@ import 'package:fitness/auth/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException, User, UserCredential;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitness/auth/shared_preferrence_helper.dart';
 import 'package:fitness/firebase_options.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
@@ -151,5 +152,17 @@ class FirebaseAuthProvider implements AuthProvider {
     } else {
       throw UserNotLoggedInAuthException();
     }
+  }
+
+  @override
+  Future<bool> hasCompletedOnboarding() async {
+    const key = 'onboarding_complete';
+    return await SharedPreferencesHelper.getBool(key);
+  }
+
+  @override
+  Future<void> setOnboardingComplete() async {
+    const key = 'onboarding_complete';
+    await SharedPreferencesHelper.setBool(key, true);
   }
 }

@@ -43,3 +43,11 @@ class AuthEventForgotPassword extends AuthEvent {
   final String? email;
   const AuthEventForgotPassword({this.email});
 }
+
+class AuthEventStartOnboarding extends AuthEvent {
+  const AuthEventStartOnboarding();
+}
+
+class AuthEventCompleteOnboarding extends AuthEvent {
+  const AuthEventCompleteOnboarding();
+}

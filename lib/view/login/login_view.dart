@@ -19,6 +19,7 @@ class _LoginViewState extends State<LoginView> {
   bool isCheck = false;
   late final TextEditingController _emailcontroller;
   late final TextEditingController _passwordcontroller;
+  bool obscureText = true;
 
   @override
   void initState() {
@@ -100,21 +101,25 @@ class _LoginViewState extends State<LoginView> {
                   RoundTextField(
                     hitText: "Password",
                     icon: "assets/img/lock.png",
-                    obscureText: true,
+                    obscureText: obscureText,
                     controller: _passwordcontroller,
                     rigtIcon: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
                         child: Container(
-                            alignment: Alignment.center,
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                              "assets/img/show_password.png",
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.contain,
-                              color: TColor.gray,
-                            ))),
+                          alignment: Alignment.center,
+                          width: 20,
+                          height: 20,
+                          child: obscureText
+                              ? Image.asset("assets/img/show_password.png")
+                              : const Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.black,
+                                ),
+                        )),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
