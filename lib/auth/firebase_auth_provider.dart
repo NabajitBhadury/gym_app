@@ -2,10 +2,16 @@ import 'package:fitness/auth/auth_exceptions.dart';
 import 'package:fitness/auth/auth_provider.dart';
 import 'package:fitness/auth/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart'
-    show FirebaseAuth, FirebaseAuthException, User, UserCredential;
+    show
+        FirebaseAuth,
+        FirebaseAuthException,
+        GoogleAuthProvider,
+        User,
+        UserCredential;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitness/auth/shared_preferrence_helper.dart';
 import 'package:fitness/firebase_options.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -164,5 +170,45 @@ class FirebaseAuthProvider implements AuthProvider {
   Future<void> setOnboardingComplete() async {
     const key = 'onboarding_complete';
     await SharedPreferencesHelper.setBool(key, true);
+  }
+
+  @override
+  Future<AuthUser> signInWithFacebook() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AuthUser> signInWithGoogle() async {
+    try {
+      final googleSignIn = GoogleSignIn();
+
+      await googleSignIn.signOut();
+      final googleAccount = await googleSignIn.signIn();
+      if (googleAccount == null) {
+        throw UserCancelledAuthException();
+      }
+
+      final googleAuth = await googleAccount.authentication;
+
+      final googleCredential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(googleCredential);
+
+      final user = userCredential.user;
+
+      if (user != null) {
+        return AuthUser.fromFirebase(user);
+      } else {
+        throw UserNotLoggedInAuthException();
+      }
+    } on FirebaseAuthException catch (_) {
+      throw GenericAuthException();
+    } catch (e) {
+      throw GenericAuthException();
+    }
   }
 }

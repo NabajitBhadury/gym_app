@@ -51,3 +51,7 @@ class AuthEventStartOnboarding extends AuthEvent {
 class AuthEventCompleteOnboarding extends AuthEvent {
   const AuthEventCompleteOnboarding();
 }
+
+class AuthEventSignInWithGoogle extends AuthEvent {
+  const AuthEventSignInWithGoogle();
+}

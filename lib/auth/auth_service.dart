@@ -60,4 +60,12 @@ class AuthService implements AuthProvider {
 
   @override
   Future<void> setOnboardingComplete() => provider.setOnboardingComplete();
+
+  @override
+  Future<AuthUser> signInWithGoogle() => provider.signInWithGoogle();
+
+  @override
+  Future<AuthUser> signInWithFacebook() async {
+    return provider.signInWithFacebook();
+  }
 }

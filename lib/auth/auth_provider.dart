@@ -29,4 +29,7 @@ abstract class AuthProvider {
 
   Future<bool> hasCompletedOnboarding();
   Future<void> setOnboardingComplete();
+
+  Future<AuthUser> signInWithGoogle();
+  Future<AuthUser> signInWithFacebook();
 }

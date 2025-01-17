@@ -171,4 +171,16 @@ class MockAuthProvider implements AuthProvider {
     // TODO: implement setOnboardingComplete
     throw UnimplementedError();
   }
+
+  @override
+  Future<AuthUser> signInWithFacebook() {
+    // TODO: implement signInWithFacebook
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AuthUser> signInWithGoogle() {
+    // TODO: implement signInWithGoogle
+    throw UnimplementedError();
+  }
 }

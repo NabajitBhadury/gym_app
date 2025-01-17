@@ -184,14 +184,14 @@ class _HomeViewState extends State<HomeView> {
                               Text(
                                 "BMI (Body Mass Index)",
                                 style: TextStyle(
-                                    color: TColor.white,
+                                    color: TColor.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700),
                               ),
                               Text(
                                 "You have a normal weight",
                                 style: TextStyle(
-                                    color: TColor.white.withOpacity(0.7),
+                                    color: TColor.black.withOpacity(0.7),
                                     fontSize: 12),
                               ),
                               SizedBox(
@@ -326,7 +326,7 @@ class _HomeViewState extends State<HomeView> {
                                 child: Text(
                                   "78 BPM",
                                   style: TextStyle(
-                                      color: TColor.white.withOpacity(0.7),
+                                      color: TColor.black.withOpacity(0.7),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 18),
                                 ),
@@ -492,7 +492,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Text(
                                     "4 Liters",
                                     style: TextStyle(
-                                        color: TColor.white.withOpacity(0.7),
+                                        color: TColor.black.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14),
                                   ),
@@ -579,7 +579,7 @@ class _HomeViewState extends State<HomeView> {
                                               child: Text(
                                                 wObj["subtitle"].toString(),
                                                 style: TextStyle(
-                                                    color: TColor.white
+                                                    color: TColor.black
                                                         .withOpacity(0.7),
                                                     fontSize: 12),
                                               ),
@@ -638,7 +638,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Text(
                                     "8h 20m",
                                     style: TextStyle(
-                                        color: TColor.white.withOpacity(0.7),
+                                        color: TColor.black.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14),
                                   ),
@@ -686,7 +686,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Text(
                                     "760 kCal",
                                     style: TextStyle(
-                                        color: TColor.white.withOpacity(0.7),
+                                        color: TColor.black.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14),
                                   ),
@@ -715,7 +715,7 @@ class _HomeViewState extends State<HomeView> {
                                               "230kCal\nleft",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: TColor.white,
+                                                  color: TColor.black,
                                                   fontSize: 11),
                                             ),
                                           ),
@@ -771,12 +771,12 @@ class _HomeViewState extends State<HomeView> {
                                     ))
                                 .toList(),
                             onChanged: (value) {},
-                            icon: Icon(Icons.expand_more, color: TColor.white),
+                            icon: Icon(Icons.expand_more, color: TColor.black),
                             hint: Text(
                               "Weekly",
                               textAlign: TextAlign.center,
                               style:
-                                  TextStyle(color: TColor.white, fontSize: 12),
+                                  TextStyle(color: TColor.black, fontSize: 12),
                             ),
                           ),
                         )),
