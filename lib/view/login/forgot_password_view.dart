@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:fitness/bloc/auth_bloc.dart';
 import 'package:fitness/bloc/auth_event.dart';
 import 'package:fitness/bloc/auth_state.dart';

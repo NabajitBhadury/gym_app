@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/workout_row.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -88,6 +91,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    final user = FirebaseAuth.instance.currentUser;
 
     final lineBarsData = [
       LineChartBarData(
@@ -102,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
             TColor.primaryColor1.withOpacity(0.1),
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
-        dotData: FlDotData(show: false),
+        dotData: const FlDotData(show: false),
         gradient: LinearGradient(
           colors: TColor.primaryG,
         ),
@@ -131,7 +135,7 @@ class _HomeViewState extends State<HomeView> {
                           style: TextStyle(color: TColor.gray, fontSize: 12),
                         ),
                         Text(
-                          "Stefani Wong",
+                          user!.displayName ?? "Stefani Wong",
                           style: TextStyle(
                               color: TColor.black,
                               fontSize: 20,

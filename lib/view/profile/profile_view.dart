@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/bloc/auth_bloc.dart';
 import 'package:fitness/bloc/auth_event.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
   ];
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.white,
@@ -97,12 +99,19 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      "assets/img/u2.png",
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
+                    child: user != null && user.photoURL != null
+                        ? Image.network(
+                            user.photoURL!,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            "assets/img/u2.png",
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -112,7 +121,9 @@ class _ProfileViewState extends State<ProfileView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Stefani Wong",
+                          user != null
+                              ? user.displayName ?? "Sephani Wong"
+                              : "Sephani Wong",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,

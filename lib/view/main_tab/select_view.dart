@@ -18,42 +18,117 @@ class SelectView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RoundButton(
-                title: "Workout Tracker",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WorkoutTrackerView(),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WorkoutTrackerView(),
+                  ),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 187, 216, 240),
+                  borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                    image: AssetImage("assets/img/workout.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      'Workout Tracker',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                }),
-
-                const SizedBox(height: 15,),
-
-                  RoundButton(
-                title: "Meal Planner",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MealPlannerView(),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MealPlannerView(),
+                  ),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 187, 216, 240),
+                  borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                    image: AssetImage("assets/img/meal.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      'Meal Planner',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                }),
-
-                const SizedBox(height: 15,),
-
-                  RoundButton(
-                title: "Sleep Tracker",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SleepTrackerView(),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SleepTrackerView(),
+                  ),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 187, 216, 240),
+                  borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                    image: AssetImage("assets/img/sleep.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      'Sleep Tracker',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                })
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
