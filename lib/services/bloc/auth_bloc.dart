@@ -1,14 +1,16 @@
 // Here we will have the logic of the AuthBloc i.e. the things that will be done in the background using the auth state and auth event and do all the things here.
 
 import 'package:bloc/bloc.dart';
-import 'package:fitness/auth/auth_provider.dart';
-import 'package:fitness/auth/firebase_auth_provider.dart';
-import 'package:fitness/bloc/auth_event.dart';
-import 'package:fitness/bloc/auth_state.dart';
+import 'package:fitness/services/auth/auth_provider.dart';
+import 'package:fitness/services/auth/firebase_auth_provider.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
+import 'package:fitness/services/bloc/auth_state.dart';
+import 'package:fitness/services/db_services/db_model.dart';
+import 'package:fitness/services/db_services/models/user_model.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // Here we are initializing the AuthBloc with the AuthProvider and the initial state of the bloc is AuthStateLoading.
-  AuthBloc(AuthProvider provider)
+  AuthBloc(AuthProvider authProvider, DBModel dbProvider)
       : super(const AuthStateUniniatlzied(
           isLoading: true,
         )) {
@@ -34,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       Exception? exception;
       // Now send the password reset email
       try {
-        await provider.sendPasswordReset(
+        await authProvider.sendPasswordReset(
           toEmail: email,
         );
         didSendEmail = true;
@@ -63,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // send email verification
     on<AuthEventSendEmailVerification>((event, emit) async {
-      await provider.sendEmailVerification();
+      await authProvider.sendEmailVerification();
       // For email verification, we are sending an email verification to the user and then emitting the current state as email verification dosen't gives any other state.
       emit(state);
     });
@@ -73,12 +75,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventRegister>((event, emit) async {
       final email = event.email;
       final password = event.password;
+      final fullName = event.name;
       try {
-        await provider.createUser(
+        final user = await authProvider.createUser(
           email: email,
           password: password,
         );
-        await provider.sendEmailVerification();
+
+        final dbUser = UserModel.newUser(
+          uid: user.id,
+          email: user.email,
+          name: fullName,
+        );
+        await dbProvider.createUser(dbUser);
+        await authProvider.sendEmailVerification();
+
         emit(
           const AuthStateNeedsVerification(isLoading: false),
         );
@@ -90,19 +101,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthEventInitialize>((event, emit) async {
-      await provider.initialize();
-      final user =
-          await (provider as FirebaseAuthProvider).getCurrentUserWithDetails();
-      final hasCompletedOnboarding = await provider.hasCompletedOnboarding();
+      await authProvider.initialize();
+      await dbProvider.init();
+      final authUser = await (authProvider as FirebaseAuthProvider)
+          .getCurrentUserWithDetails();
+      final hasCompletedOnboarding =
+          await authProvider.hasCompletedOnboarding();
 
       if (!hasCompletedOnboarding) {
         emit(const AuthStateOnboarding(isLoading: false));
-      } else if (user == null) {
+      } else if (authUser == null) {
         emit(const AuthStateLoggedOut(exception: null, isLoading: false));
-      } else if (!user.isEmailVerified) {
+      } else if (!authUser.isEmailVerified) {
         emit(const AuthStateNeedsVerification(isLoading: false));
       } else {
-        emit(AuthStateLoggedIn(user: user, isLoading: false));
+        var dbUser = await dbProvider.getUser(authUser.id);
+        if (dbUser == null) {
+          dbUser = UserModel.newUser(
+            uid: authUser.id,
+            email: authUser.email,
+            name: "Unknown User",
+          );
+          await dbProvider.createUser(dbUser);
+        }
+        emit(
+          AuthStateLoggedIn(
+            user: authUser,
+            isLoading: false,
+            dbModel: dbProvider,
+          ),
+        );
       }
     });
 
@@ -113,10 +141,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             isLoading: true,
             loadingText: 'Please wait while we log you in'),
       );
+
+      await dbProvider.init();
       final email = event.email;
       final password = event.password;
       try {
-        final user = await provider.login(
+        final user = await authProvider.login(
           email: email,
           password: password,
         );
@@ -134,7 +164,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             const AuthStateLoggedOut(exception: null, isLoading: false),
           );
         }
-        emit(AuthStateLoggedIn(user: user, isLoading: false));
+        final dbUser = await dbProvider.getUser(user.id);
+        if (dbUser == null) {
+          await dbProvider.createUser(UserModel.newUser(
+            uid: user.id,
+            email: user.email,
+            name: "Unknown",
+          ));
+        }
+        emit(AuthStateLoggedIn(
+            user: user, isLoading: false, dbModel: dbProvider));
       } on Exception catch (e) {
         emit(AuthStateLoggedOut(
           isLoading: false,
@@ -145,7 +184,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthEventLogout>((event, emit) async {
       try {
-        await provider.logout();
+        await authProvider.logout();
         emit(
           const AuthStateLoggedOut(exception: null, isLoading: false),
         );
@@ -161,7 +200,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthEventCompleteOnboarding>((event, emit) async {
-      await provider.setOnboardingComplete();
+      await authProvider.setOnboardingComplete();
       emit(const AuthStateOnboardingComplete(isLoading: false));
     });
 
@@ -175,8 +214,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
         try {
-          final authProvider = await provider.signInWithGoogle();
-          emit(AuthStateLoggedIn(user: authProvider, isLoading: false));
+          final provider = await authProvider.signInWithGoogle();
+
+          emit(AuthStateLoggedIn(
+              user: provider, isLoading: false, dbModel: dbProvider));
         } on Exception catch (e) {
           emit(AuthStateLoggedOut(
             isLoading: false,

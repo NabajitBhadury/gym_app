@@ -1,6 +1,7 @@
 // Here we will define the state of the AuthBloc i.e. the things that will be shown in the UI.
 import 'package:equatable/equatable.dart';
-import 'package:fitness/auth/auth_user.dart';
+import 'package:fitness/services/auth/auth_user.dart';
+import 'package:fitness/services/db_services/db_model.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
@@ -28,8 +29,10 @@ class AuthStateRegistering extends AuthState {
 // AuthStateLoggedIn will hold the user object of the class AuthUser as while loggin in we need the authenticated user.
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
+  final DBModel dbModel;
   const AuthStateLoggedIn({
     required this.user,
+    required this.dbModel,
     required super.isLoading,
   });
 

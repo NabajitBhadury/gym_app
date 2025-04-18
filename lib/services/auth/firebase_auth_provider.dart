@@ -1,6 +1,6 @@
-import 'package:fitness/auth/auth_exceptions.dart';
-import 'package:fitness/auth/auth_provider.dart';
-import 'package:fitness/auth/auth_user.dart';
+import 'package:fitness/services/auth/auth_exceptions.dart';
+import 'package:fitness/services/auth/auth_provider.dart';
+import 'package:fitness/services/auth/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show
         FirebaseAuth,
@@ -9,8 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart'
         User,
         UserCredential;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitness/auth/shared_preferrence_helper.dart';
+import 'package:fitness/services/auth/shared_preferrence_helper.dart';
 import 'package:fitness/firebase_options.dart';
+import 'package:fitness/services/db_services/firestore_db.dart';
+import 'package:fitness/services/db_services/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
@@ -201,6 +203,17 @@ class FirebaseAuthProvider implements AuthProvider {
       final user = userCredential.user;
 
       if (user != null) {
+        final name = user.displayName;
+        final image = user.photoURL;
+        final dbModel =
+            FirestoreDB(); // Assuming FirestoreDB implements DBModel
+        await dbModel.init(); // Ensure FirestoreDB is initialized
+        await dbModel.createUser(UserModel.newUser(
+          uid: user.uid,
+          email: user.email!,
+          name: name ?? "Unknown",
+          photoUrl: image,
+        ));
         return AuthUser.fromFirebase(user);
       } else {
         throw UserNotLoggedInAuthException();

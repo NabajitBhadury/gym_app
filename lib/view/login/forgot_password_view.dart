@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:fitness/bloc/auth_bloc.dart';
-import 'package:fitness/bloc/auth_event.dart';
-import 'package:fitness/bloc/auth_state.dart';
+import 'package:fitness/services/bloc/auth_bloc.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
+import 'package:fitness/services/bloc/auth_state.dart';
 import 'package:fitness/common/colo_extension.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/round_textfield.dart';

@@ -1,8 +1,9 @@
-import 'package:fitness/auth/firebase_auth_provider.dart';
-import 'package:fitness/bloc/auth_bloc.dart';
-import 'package:fitness/bloc/auth_event.dart';
-import 'package:fitness/bloc/auth_state.dart';
+import 'package:fitness/services/auth/firebase_auth_provider.dart';
+import 'package:fitness/services/bloc/auth_bloc.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
+import 'package:fitness/services/bloc/auth_state.dart';
 import 'package:fitness/loading_screen.dart';
+import 'package:fitness/services/db_services/firestore_db.dart';
 import 'package:fitness/view/login/forgot_password_view.dart';
 import 'package:fitness/view/login/login_view.dart';
 import 'package:fitness/view/login/signup_view.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(
           FirebaseAuthProvider(),
+          FirestoreDB(),
         ),
         child: const HomePage(),
       ),
@@ -88,7 +90,12 @@ class HomePage extends StatelessWidget {
       } else if (state is AuthStateOnboardingComplete) {
         return const LoginView();
       } else if (state is AuthStateLoggedIn) {
-        return const MainTabView();
+        var dbModel = state.dbModel;
+        var authUser = state.user;
+        return MainTabView(
+          dbModel: dbModel,
+          authUser: authUser,
+        );
       } else if (state is AuthStateNeedsVerification) {
         return const VerifyEmailView();
       } else if (state is AuthStateLoggedOut) {

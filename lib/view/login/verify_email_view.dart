@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
-import 'package:fitness/auth/auth_service.dart';
-import 'package:fitness/bloc/auth_bloc.dart';
-import 'package:fitness/bloc/auth_event.dart';
+import 'package:fitness/services/auth/auth_service.dart';
+import 'package:fitness/services/bloc/auth_bloc.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
 import 'package:fitness/common/colo_extension.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:flutter/material.dart';
@@ -80,14 +80,13 @@ class VerifyEmailView extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-              color: Colors.grey,
-              )
-              ),
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: Colors.grey,
+                    )),
                 child: TextButton(
                   onPressed: () async {
                     await AuthService.firebase().logout();

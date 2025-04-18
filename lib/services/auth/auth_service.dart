@@ -1,6 +1,6 @@
-import 'package:fitness/auth/firebase_auth_provider.dart';
-import 'package:fitness/auth/auth_provider.dart';
-import 'package:fitness/auth/auth_user.dart';
+import 'package:fitness/services/auth/firebase_auth_provider.dart';
+import 'package:fitness/services/auth/auth_provider.dart';
+import 'package:fitness/services/auth/auth_user.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;

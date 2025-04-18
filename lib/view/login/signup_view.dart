@@ -1,7 +1,7 @@
-import 'package:fitness/auth/auth_exceptions.dart';
-import 'package:fitness/bloc/auth_bloc.dart';
-import 'package:fitness/bloc/auth_event.dart';
-import 'package:fitness/bloc/auth_state.dart';
+import 'package:fitness/services/auth/auth_exceptions.dart';
+import 'package:fitness/services/bloc/auth_bloc.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
+import 'package:fitness/services/bloc/auth_state.dart';
 import 'package:fitness/common/colo_extension.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/round_textfield.dart';
@@ -20,6 +20,8 @@ class _SignUpViewState extends State<SignUpView> {
   late final TextEditingController _emailcontroller;
   late final TextEditingController _passwordcontroller;
   late final TextEditingController _confirmPasswordcontroller;
+  late final TextEditingController _firstNamecontroller;
+  late final TextEditingController _lastNamecontroller;
   bool obscurepasswordText = true;
   bool obscureconfpasswordText = true;
   final _formKey = GlobalKey<FormState>();
@@ -31,6 +33,8 @@ class _SignUpViewState extends State<SignUpView> {
     _emailcontroller = TextEditingController();
     _passwordcontroller = TextEditingController();
     _confirmPasswordcontroller = TextEditingController();
+    _firstNamecontroller = TextEditingController();
+    _lastNamecontroller = TextEditingController();
     super.initState();
   }
 
@@ -103,6 +107,7 @@ class _SignUpViewState extends State<SignUpView> {
                     RoundTextField(
                       hitText: "First Name",
                       icon: "assets/img/user_text.png",
+                      controller: _firstNamecontroller,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your first name";
@@ -115,6 +120,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     RoundTextField(
                       hitText: "Last Name",
+                      controller: _lastNamecontroller,
                       icon: "assets/img/user_text.png",
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -249,9 +255,13 @@ class _SignUpViewState extends State<SignUpView> {
                           if (_formKey.currentState!.validate()) {
                             final email = _emailcontroller.text;
                             final password = _passwordcontroller.text;
+                            final firstName = _firstNamecontroller.text;
+                            final lastName = _lastNamecontroller.text;
+                            final fullName = "$firstName $lastName";
                             context.read<AuthBloc>().add(AuthEventRegister(
                                   email,
                                   password,
+                                  fullName,
                                 ));
                           }
                         }),

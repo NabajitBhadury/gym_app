@@ -1,4 +1,4 @@
-import 'package:fitness/auth/auth_user.dart';
+import 'package:fitness/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
   AuthUser? get getCurrentUser;

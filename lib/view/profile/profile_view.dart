@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitness/bloc/auth_bloc.dart';
-import 'package:fitness/bloc/auth_event.dart';
+import 'package:fitness/services/bloc/auth_bloc.dart';
+import 'package:fitness/services/bloc/auth_event.dart';
+import 'package:fitness/services/db_services/db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,8 @@ import '../../common_widget/title_subtitle_cell.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final DBModel dbModel;
+  const ProfileView({super.key, required this.dbModel});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -43,6 +45,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.white,
@@ -95,70 +99,100 @@ class _ProfileViewState extends State<ProfileView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: user != null && user.photoURL != null
-                        ? Image.network(
-                            user.photoURL!,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            "assets/img/u2.png",
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user != null
-                              ? user.displayName ?? "Sephani Wong"
-                              : "Sephani Wong",
-                          style: TextStyle(
-                            color: TColor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+              FutureBuilder(
+                future: widget.dbModel.getUser(uid!),
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return const Center(child: Text("Error loading user data"));
+                  }
+                  if (data == null) {
+                    return const Center(child: Text("No user data found"));
+                  }
+                  return Row(
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: TColor.gray.withOpacity(0.3),
+                            width: 1,
                           ),
                         ),
-                        Text(
-                          "Lose a Fat Program",
-                          style: TextStyle(
-                            color: TColor.gray,
-                            fontSize: 12,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            snapshot.data?.photoUrl ??
+                                "https://th.bing.com/th/id/OIP.9V3BIGWmqMIcS6B__g7O6QAAAA?rs=1&pid=ImgDetMain",
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: TColor.gray.withOpacity(0.2),
+                                child: Icon(
+                                  Icons.person,
+                                  color: TColor.gray,
+                                  size: 20,
+                                ),
+                              );
+                            },
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 70,
-                    height: 25,
-                    child: RoundButton(
-                      title: "Edit",
-                      type: RoundButtonType.bgGradient,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const ActivityTrackerView(),
-                        //   ),
-                        // );
-                      },
-                    ),
-                  )
-                ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user != null
+                                  ? user.displayName ?? "Sephani Wong"
+                                  : "Sephani Wong",
+                              style: TextStyle(
+                                color: TColor.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Lose a Fat Program",
+                              style: TextStyle(
+                                color: TColor.gray,
+                                fontSize: 12,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 70,
+                        height: 25,
+                        child: RoundButton(
+                          title: "Edit",
+                          type: RoundButtonType.bgGradient,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const ActivityTrackerView(),
+                            //   ),
+                            // );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                },
               ),
               const SizedBox(
                 height: 15,

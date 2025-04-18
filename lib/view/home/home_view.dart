@@ -4,6 +4,7 @@ import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/workout_row.dart';
+import 'package:fitness/services/db_services/db_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
@@ -14,7 +15,11 @@ import 'finished_workout_view.dart';
 import 'notification_view.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final DBModel dbModel;
+  const HomeView({
+    super.key,
+    required this.dbModel,
+  });
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -91,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    final user = FirebaseAuth.instance.currentUser;
+    var uid = FirebaseAuth.instance.currentUser!.uid;
 
     final lineBarsData = [
       LineChartBarData(
@@ -124,42 +129,122 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome Back,",
-                          style: TextStyle(color: TColor.gray, fontSize: 12),
-                        ),
-                        Text(
-                          user!.displayName ?? "Stefani Wong",
-                          style: TextStyle(
-                              color: TColor.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NotificationView(),
-                            ),
-                          );
-                        },
-                        icon: Image.asset(
-                          "assets/img/notification_active.png",
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.fitHeight,
-                        ))
-                  ],
-                ),
+                FutureBuilder(
+                    future: widget.dbModel.getUser(uid),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return const Text("Error fetching user data");
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Welcome Back,",
+                                style:
+                                    TextStyle(color: TColor.gray, fontSize: 12),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: TColor.gray.withOpacity(0.3),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        snapshot.data?.photoUrl ??
+                                            "https://th.bing.com/th/id/OIP.9V3BIGWmqMIcS6B__g7O6QAAAA?rs=1&pid=ImgDetMain",
+                                        width: 40,
+                                        height: 40,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Container(
+                                            color: TColor.gray.withOpacity(0.2),
+                                            child: Icon(
+                                              Icons.person,
+                                              color: TColor.gray,
+                                              size: 20,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    snapshot.data?.name ?? "Stefani Wong",
+                                    style: TextStyle(
+                                        color: TColor.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          FutureBuilder(
+                            future: widget.dbModel.getPowerGems(uid),
+                            builder: (context, powerGemsSnapshot) {
+                              if (powerGemsSnapshot.hasData) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    gradient:
+                                        LinearGradient(colors: TColor.primaryG),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "🔥${powerGemsSnapshot.data?.totalGems ?? 0}",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NotificationView(),
+                                  ),
+                                );
+                              },
+                              icon: Image.asset(
+                                "assets/img/notification_active.png",
+                                width: 25,
+                                height: 25,
+                                fit: BoxFit.fitHeight,
+                              ))
+                        ],
+                      );
+                    }),
                 SizedBox(
                   height: media.width * 0.05,
                 ),

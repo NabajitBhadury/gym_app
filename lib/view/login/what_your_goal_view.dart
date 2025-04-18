@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitness/services/auth/auth_user.dart';
+import 'package:fitness/services/db_services/db_model.dart';
 import 'package:fitness/view/login/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_controller.dart' as slider;
@@ -7,7 +9,13 @@ import '../../common/colo_extension.dart';
 import '../../common_widget/round_button.dart';
 
 class WhatYourGoalView extends StatefulWidget {
-  const WhatYourGoalView({super.key});
+  final DBModel dbModel;
+  final AuthUser authUser;
+  const WhatYourGoalView({
+    super.key,
+    required this.dbModel,
+    required this.authUser,
+  });
 
   @override
   State<WhatYourGoalView> createState() => _WhatYourGoalViewState();
@@ -139,7 +147,10 @@ class _WhatYourGoalViewState extends State<WhatYourGoalView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const WelcomeView()));
+                              builder: (context) => WelcomeView(
+                                    dbModel: widget.dbModel,
+                                    authUser: widget.authUser,
+                                  )));
                     }),
               ],
             ),

@@ -1,6 +1,6 @@
-import 'package:fitness/auth/auth_exceptions.dart';
-import 'package:fitness/auth/auth_provider.dart';
-import 'package:fitness/auth/auth_user.dart';
+import 'package:fitness/services/auth/auth_exceptions.dart';
+import 'package:fitness/services/auth/auth_provider.dart';
+import 'package:fitness/services/auth/auth_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
