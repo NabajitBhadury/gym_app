@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:fitness/services/gemini/gemeni_api_service.dart';
+import 'package:fitness/view/meal_planner/meal_schedule_view_gemeni.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +10,6 @@ import '../../common_widget/find_eat_cell.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/today_meal_row.dart';
 import 'meal_food_details_view.dart';
-import 'meal_schedule_view.dart';
 
 class MealPlannerView extends StatefulWidget {
   const MealPlannerView({super.key});
@@ -290,14 +293,43 @@ class _MealPlannerViewState extends State<MealPlannerView> {
                             type: RoundButtonType.bgGradient,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MealScheduleView(),
-                                ),
+                            onPressed: () async {
+                              // Show loading dialog
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (_) => const Center(
+                                    child: CircularProgressIndicator()),
                               );
+
+                              try {
+                                final service = GeminiApiService();
+                                final mealData = await service.getDailyMeals(
+                                  age: 25,
+                                  heightCm: 170,
+                                  weightKg: 70,
+                                  gender: "male",
+                                );
+
+                                if (!mounted) return;
+
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MealScheduleViewGemeni(
+                                            mealData: mealData),
+                                  ),
+                                );
+                              } catch (e) {
+                                debugPrint("Error: $e");
+                                Navigator.pop(context); // Remove loading dialog
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('Error: ${e.toString()}')),
+                                );
+                              }
                             },
                           ),
                         )

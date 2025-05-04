@@ -1,6 +1,5 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
 import '../../common/colo_extension.dart';
 import '../../common_widget/meal_food_schedule_row.dart';
@@ -14,10 +13,8 @@ class MealScheduleView extends StatefulWidget {
 }
 
 class _MealScheduleViewState extends State<MealScheduleView> {
-  CalendarAgendaController _calendarAgendaControllerAppBar =
+  final CalendarAgendaController _calendarAgendaControllerAppBar =
       CalendarAgendaController();
-
-  late DateTime _selectedDateAppBBar;
 
   List breakfastArr = [
     {
@@ -87,7 +84,6 @@ class _MealScheduleViewState extends State<MealScheduleView> {
   @override
   void initState() {
     super.initState();
-    _selectedDateAppBBar = DateTime.now();
   }
 
   @override
@@ -184,9 +180,7 @@ class _MealScheduleViewState extends State<MealScheduleView> {
             firstDate: DateTime.now().subtract(const Duration(days: 140)),
             lastDate: DateTime.now().add(const Duration(days: 60)),
 
-            onDateSelected: (date) {
-              _selectedDateAppBBar = date;
-            },
+            onDateSelected: (date) {},
             selectedDayLogo: Container(
               width: double.maxFinite,
               height: double.maxFinite,

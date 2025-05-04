@@ -42,6 +42,33 @@ class _ProfileViewState extends State<ProfileView> {
     {"image": "assets/img/p_privacy.png", "name": "Privacy Policy", "tag": "6"},
     {"image": "assets/img/p_setting.png", "name": "Setting", "tag": "7"},
   ];
+
+  Future<String?> _showUpdateDialog(
+      BuildContext context, String field, String currentValue) async {
+    final controller = TextEditingController(text: currentValue);
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Update $field'),
+        content: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(labelText: field),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: const Text('Update'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -112,118 +139,159 @@ class _ProfileViewState extends State<ProfileView> {
                   if (data == null) {
                     return const Center(child: Text("No user data found"));
                   }
-                  return Row(
+                  return Column(
                     children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: TColor.gray.withOpacity(0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            snapshot.data?.photoUrl ??
-                                "https://th.bing.com/th/id/OIP.9V3BIGWmqMIcS6B__g7O6QAAAA?rs=1&pid=ImgDetMain",
-                            width: 40,
-                            height: 40,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: TColor.gray.withOpacity(0.2),
-                                child: Icon(
-                                  Icons.person,
-                                  color: TColor.gray,
-                                  size: 20,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user != null
-                                  ? user.displayName ?? "Sephani Wong"
-                                  : "Sephani Wong",
-                              style: TextStyle(
-                                color: TColor.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                      Row(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: TColor.gray.withOpacity(0.3),
+                                width: 1,
                               ),
                             ),
-                            Text(
-                              "Lose a Fat Program",
-                              style: TextStyle(
-                                color: TColor.gray,
-                                fontSize: 12,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                snapshot.data?.photoUrl ??
+                                    "https://th.bing.com/th/id/OIP.9V3BIGWmqMIcS6B__g7O6QAAAA?rs=1&pid=ImgDetMain",
+                                width: 40,
+                                height: 40,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: TColor.gray.withOpacity(0.2),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: TColor.gray,
+                                      size: 20,
+                                    ),
+                                  );
+                                },
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user != null ? data.name : "Sephani Wong",
+                                  style: TextStyle(
+                                    color: TColor.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  "Lose a Fat Program",
+                                  style: TextStyle(
+                                    color: TColor.gray,
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 70,
+                            height: 25,
+                            child: RoundButton(
+                              title: "Edit",
+                              type: RoundButtonType.bgGradient,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              onPressed: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const ActivityTrackerView(),
+                                //   ),
+                                // );
+                              },
+                            ),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        width: 70,
-                        height: 25,
-                        child: RoundButton(
-                          title: "Edit",
-                          type: RoundButtonType.bgGradient,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const ActivityTrackerView(),
-                            //   ),
-                            // );
-                          },
-                        ),
-                      )
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                final newHeight = await _showUpdateDialog(
+                                  context,
+                                  "Height",
+                                  data.height?.toString() ?? "_",
+                                );
+                                if (newHeight != null) {
+                                  await widget.dbModel.updateUser(
+                                    data.copyWith(height: newHeight),
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                              child: TitleSubtitleCell(
+                                title: "${data.height ?? '_'}cm",
+                                subtitle: "Height",
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                final newWeight = await _showUpdateDialog(
+                                  context,
+                                  "Weight",
+                                  data.weight?.toString() ?? "_",
+                                );
+                                if (newWeight != null) {
+                                  await widget.dbModel.updateUser(
+                                    data.copyWith(weight: newWeight),
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                              child: TitleSubtitleCell(
+                                title: "${data.weight ?? ''}kg",
+                                subtitle: "Weight",
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                final newAge = await _showUpdateDialog(
+                                  context,
+                                  "Age",
+                                  data.age?.toString() ?? "",
+                                );
+                                if (newAge != null) {
+                                  await widget.dbModel.updateUser(
+                                    data.copyWith(age: newAge),
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                              child: TitleSubtitleCell(
+                                title: "${data.age ?? ''}yo",
+                                subtitle: "Age",
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   );
                 },
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              const Row(
-                children: [
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: "180cm",
-                      subtitle: "Height",
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: "65kg",
-                      subtitle: "Weight",
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: "22yo",
-                      subtitle: "Age",
-                    ),
-                  ),
-                ],
               ),
               const SizedBox(
                 height: 25,
@@ -314,9 +382,9 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                             CustomAnimatedToggleSwitch<bool>(
                               current: positive,
-                              values: [false, true],
+                              values: const [false, true],
                               dif: 0.0,
-                              indicatorSize: Size.square(30.0),
+                              indicatorSize: const Size.square(30.0),
                               animationDuration:
                                   const Duration(milliseconds: 200),
                               animationCurve: Curves.linear,

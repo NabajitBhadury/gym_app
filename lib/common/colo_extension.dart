@@ -4,6 +4,10 @@ class TColor {
   static Color get primaryColor2 => const Color(0xff9BFF5E);
   static Color get primaryColor1 => const Color(0xff20D628);
 
+  static Color get customGreen => const Color(0xffccff8a);
+  static Color get customBlue => const Color(0xff91d1ff);
+  static Color get customYellow => const Color(0xffeef89a);
+
   static Color get secondaryColor1 => const Color(0xffFFF314);
   static Color get secondaryColor2 => const Color(0xff9BFF5E);
 

@@ -147,68 +147,66 @@ class _MainTabViewState extends State<MainTabView> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-          child: Container(
-        decoration: BoxDecoration(color: TColor.white, boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, -2))
-        ]),
-        height: kToolbarHeight,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            TabButton(
-                icon: "assets/img/home_tab.png",
-                selectIcon: "assets/img/home_tab_select.png",
-                isActive: selectTab == 0,
-                onTap: () {
-                  selectTab = 0;
-                  currentTab = HomeView(
-                    dbModel: widget.dbModel,
-                  );
-                  if (mounted) {
-                    setState(() {});
-                  }
-                }),
-            TabButton(
-                icon: "assets/img/activity_tab.png",
-                selectIcon: "assets/img/activity_tab_select.png",
-                isActive: selectTab == 1,
-                onTap: () {
-                  selectTab = 1;
-                  currentTab = const SelectView();
-                  if (mounted) {
-                    setState(() {});
-                  }
-                }),
-            const SizedBox(
-              width: 40,
-            ),
-            TabButton(
-                icon: "assets/img/camera_tab.png",
-                selectIcon: "assets/img/camera_tab_select.png",
-                isActive: selectTab == 2,
-                onTap: () {
-                  selectTab = 2;
-                  currentTab = const PhotoProgressView();
-                  if (mounted) {
-                    setState(() {});
-                  }
-                }),
-            TabButton(
-                icon: "assets/img/profile_tab.png",
-                selectIcon: "assets/img/profile_tab_select.png",
-                isActive: selectTab == 3,
-                onTap: () {
-                  selectTab = 3;
-                  currentTab = ProfileView(
-                    dbModel: widget.dbModel,
-                  );
-                  if (mounted) {
-                    setState(() {});
-                  }
-                })
-          ],
-        ),
-      )),
+          color: TColor.white,
+          elevation: 2,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 8,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TabButton(
+                  icon: "assets/img/home_tab.png",
+                  selectIcon: "assets/img/home_tab_select.png",
+                  isActive: selectTab == 0,
+                  onTap: () {
+                    selectTab = 0;
+                    currentTab = HomeView(
+                      dbModel: widget.dbModel,
+                    );
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  }),
+              TabButton(
+                  icon: "assets/img/activity_tab.png",
+                  selectIcon: "assets/img/activity_tab_select.png",
+                  isActive: selectTab == 1,
+                  onTap: () {
+                    selectTab = 1;
+                    currentTab = const SelectView();
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  }),
+              const SizedBox(
+                width: 40,
+              ),
+              TabButton(
+                  icon: "assets/img/camera_tab.png",
+                  selectIcon: "assets/img/camera_tab_select.png",
+                  isActive: selectTab == 2,
+                  onTap: () {
+                    selectTab = 2;
+                    currentTab = const PhotoProgressView();
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  }),
+              TabButton(
+                  icon: "assets/img/profile_tab.png",
+                  selectIcon: "assets/img/profile_tab_select.png",
+                  isActive: selectTab == 3,
+                  onTap: () {
+                    selectTab = 3;
+                    currentTab = ProfileView(
+                      dbModel: widget.dbModel,
+                    );
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  })
+            ],
+          )),
     );
   }
 }

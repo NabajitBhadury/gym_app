@@ -30,7 +30,6 @@ class SelectView extends StatelessWidget {
                 width: double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 187, 216, 240),
                   borderRadius: BorderRadius.circular(10),
                   image: const DecorationImage(
                     image: AssetImage("assets/img/workout.png"),
@@ -38,14 +37,15 @@ class SelectView extends StatelessWidget {
                   ),
                 ),
                 child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10),
                     Text(
                       'Workout Tracker',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -68,7 +68,6 @@ class SelectView extends StatelessWidget {
                 width: double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 187, 216, 240),
                   borderRadius: BorderRadius.circular(10),
                   image: const DecorationImage(
                     image: AssetImage("assets/img/meal.png"),
@@ -76,14 +75,15 @@ class SelectView extends StatelessWidget {
                   ),
                 ),
                 child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10),
                     Text(
                       'Meal Planner',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -106,7 +106,6 @@ class SelectView extends StatelessWidget {
                 width: double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 187, 216, 240),
                   borderRadius: BorderRadius.circular(10),
                   image: const DecorationImage(
                     image: AssetImage("assets/img/sleep.png"),
@@ -114,14 +113,15 @@ class SelectView extends StatelessWidget {
                   ),
                 ),
                 child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10),
                     Text(
                       'Sleep Tracker',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ],
