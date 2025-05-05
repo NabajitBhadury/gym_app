@@ -182,7 +182,9 @@ class _ProfileViewState extends State<ProfileView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user != null ? data.name : "Sephani Wong",
+                                  user != null
+                                      ? (data.name ?? "Sephani Wong")
+                                      : "Sephani Wong",
                                   style: TextStyle(
                                     color: TColor.black,
                                     fontSize: 14,

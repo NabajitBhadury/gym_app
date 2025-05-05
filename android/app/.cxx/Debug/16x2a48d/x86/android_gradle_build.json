@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/home/nabajit/Downloads/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/nabajit/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/nabajit/code_space/flutter_projects/fitness_workout_app_flutter_3_ui/android/app/.cxx/Debug/16x2a48d/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/nabajit/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/nabajit/code_space/flutter_projects/fitness_workout_app_flutter_3_ui/android/app/.cxx/Debug/16x2a48d/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/nabajit/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/nabajit/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

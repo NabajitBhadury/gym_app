@@ -100,6 +100,64 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    // Profile completion
+    on<AuthEventDoProfileCompletion>((event, emit) async {
+      final height = event.height;
+      final weight = event.weight;
+      final age = event.age;
+      final allergyCondition = event.allergyCondition;
+      final medicalCondition = event.medicalCondition;
+      final dietaryPreference = event.dietaryPreference;
+      final currentInjuryCondition = event.currentInjuryCondition;
+      final authUser = (authProvider as FirebaseAuthProvider).getCurrentUser;
+
+      try {
+        await dbProvider.updateUser(
+          UserModel(
+            uid: authUser!.id,
+            email: authUser.email,
+            height: height,
+            weight: weight,
+            age: age,
+            allergyCondition: allergyCondition,
+            medicalCondition: medicalCondition,
+            dietaryPreference: dietaryPreference,
+            currentInjuryCondition: currentInjuryCondition,
+          ),
+        );
+        emit(const AuthStateSelectBodyShape(isLoading: false));
+      } on Exception catch (e) {
+        emit(
+          AuthStateLoggedOut(exception: e, isLoading: false),
+        );
+      }
+    });
+
+    // Select body shape
+    on<AuthEventSelectBodyShape>((event, emit) async {
+      final bodyShape = event.bodyShape;
+      final authUser = (authProvider as FirebaseAuthProvider).getCurrentUser;
+
+      try {
+        await dbProvider.updateUser(
+          UserModel(
+            uid: authUser!.id,
+            email: authUser.email,
+            bodyShape: bodyShape,
+          ),
+        );
+        emit(AuthStateLoggedIn(
+          isLoading: false,
+          user: authUser,
+          dbModel: dbProvider,
+        ));
+      } on Exception catch (e) {
+        emit(
+          AuthStateLoggedOut(exception: e, isLoading: false),
+        );
+      }
+    });
+
     on<AuthEventInitialize>((event, emit) async {
       await authProvider.initialize();
       await dbProvider.init();

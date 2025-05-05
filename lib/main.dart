@@ -4,6 +4,8 @@ import 'package:fitness/services/bloc/auth_event.dart';
 import 'package:fitness/services/bloc/auth_state.dart';
 import 'package:fitness/loading_screen.dart';
 import 'package:fitness/services/db_services/firestore_db.dart';
+import 'package:fitness/view/login/body_shape_selection_screen.dart';
+import 'package:fitness/view/login/complete_profile_view.dart';
 import 'package:fitness/view/login/forgot_password_view.dart';
 import 'package:fitness/view/login/login_view.dart';
 import 'package:fitness/view/login/signup_view.dart';
@@ -104,6 +106,13 @@ class HomePage extends StatelessWidget {
         return const ForgotPasswordView();
       } else if (state is AuthStateRegistering) {
         return const SignUpView();
+      } else if (state is AuthStateProfileCompletion) {
+        return CompleteProfileView(
+          dbModel: state.dbModel,
+          authUser: state.user,
+        );
+      } else if (state is AuthStateSelectBodyShape) {
+        return const BodyShapeSelectionScreen();
       } else {
         return const Scaffold(
           body: CircularProgressIndicator(),

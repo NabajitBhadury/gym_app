@@ -27,33 +27,31 @@ class WorkoutRow extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-
-           const SizedBox(width: 15,),
+            const SizedBox(
+              width: 15,
+            ),
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  Text(
-                  wObj["name"].toString(),
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 12),
-                ),
-
                 Text(
-                  "${ wObj["kcal"].toString() } Calories Burn | ${wObj["time"].toString()}minutes",
-                  style: TextStyle(
-                      color: TColor.gray,
-                      fontSize: 10,),
+                  wObj["name"].toString(),
+                  style: TextStyle(color: TColor.black, fontSize: 12),
                 ),
-
-               const SizedBox(height: 4,),
-
+                Text(
+                  "${wObj["kcal"].toString()} Calories Burn | ${wObj["time"].toString()}minutes",
+                  style: TextStyle(
+                    color: TColor.gray,
+                    fontSize: 10,
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
                 SimpleAnimationProgressBar(
                   height: 15,
                   width: media.width * 0.5,
                   backgroundColor: Colors.grey.shade100,
-                  foregrondColor: Colors.purple,
                   ratio: wObj["progress"] as double? ?? 0.0,
                   direction: Axis.horizontal,
                   curve: Curves.fastLinearToSlowEaseIn,
@@ -63,8 +61,8 @@ class WorkoutRow extends StatelessWidget {
                       colors: TColor.primaryG,
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight),
+                  foregroundColor: Colors.purple,
                 ),
-
               ],
             )),
             IconButton(

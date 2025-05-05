@@ -37,6 +37,31 @@ class AuthEventRegister extends AuthEvent {
   );
 }
 
+class AuthEventDoProfileCompletion extends AuthEvent {
+  final String? height;
+  final String? weight;
+  final String? age;
+  final String? allergyCondition;
+  final String? medicalCondition;
+  final String? dietaryPreference;
+  final String? currentInjuryCondition;
+
+  const AuthEventDoProfileCompletion({
+    this.height,
+    this.weight,
+    this.age,
+    this.allergyCondition,
+    this.medicalCondition,
+    this.dietaryPreference,
+    this.currentInjuryCondition,
+  });
+}
+
+class AuthEventSelectBodyShape extends AuthEvent {
+  final String? bodyShape;
+  const AuthEventSelectBodyShape({this.bodyShape});
+}
+
 class AuthEventShouldRegister extends AuthEvent {
   const AuthEventShouldRegister();
 }

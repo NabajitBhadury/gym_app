@@ -543,7 +543,6 @@ class _HomeViewState extends State<HomeView> {
                               height: media.width * 0.85,
                               width: media.width * 0.07,
                               backgroundColor: Colors.grey.shade100,
-                              foregrondColor: Colors.purple,
                               ratio: 0.5,
                               direction: Axis.vertical,
                               curve: Curves.fastLinearToSlowEaseIn,
@@ -553,6 +552,7 @@ class _HomeViewState extends State<HomeView> {
                                   colors: TColor.primaryG,
                                   begin: Alignment.bottomCenter,
                                   end: Alignment.topCenter),
+                              foregroundColor: Colors.purple,
                             ),
                             const SizedBox(
                               width: 10,

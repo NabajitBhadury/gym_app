@@ -78,3 +78,37 @@ class AuthStateOnboarding extends AuthState {
 class AuthStateOnboardingComplete extends AuthState {
   const AuthStateOnboardingComplete({required super.isLoading});
 }
+
+class AuthStateProfileCompletion extends AuthState {
+  final Exception? exception;
+  final DBModel dbModel;
+  final AuthUser user;
+  const AuthStateProfileCompletion({
+    required this.exception,
+    required this.dbModel,
+    required this.user,
+    required super.isLoading,
+    super.loadingText,
+  });
+}
+
+class AuthStateHasDoneProfileCompletion extends AuthState {
+  const AuthStateHasDoneProfileCompletion({
+    required super.isLoading,
+    super.loadingText,
+  });
+}
+
+class AuthStateSelectBodyShape extends AuthState {
+  const AuthStateSelectBodyShape({
+    required super.isLoading,
+    super.loadingText,
+  });
+}
+
+class AuthStateSelectBodyShapeComplete extends AuthState {
+  const AuthStateSelectBodyShapeComplete({
+    required super.isLoading,
+    super.loadingText,
+  });
+}

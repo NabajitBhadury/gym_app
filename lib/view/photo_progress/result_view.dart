@@ -262,7 +262,6 @@ class _ResultViewState extends State<ResultView> {
                           height: 20,
                           width: media.width - 40,
                           backgroundColor: Colors.grey.shade100,
-                          foregrondColor: Colors.purple,
                           ratio: 0.62,
                           direction: Axis.horizontal,
                           curve: Curves.fastLinearToSlowEaseIn,
@@ -272,6 +271,7 @@ class _ResultViewState extends State<ResultView> {
                               colors: TColor.primaryG,
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight),
+                          foregroundColor: Colors.purple,
                         ),
                         Text(
                           "62%",
@@ -564,7 +564,6 @@ class _ResultViewState extends State<ResultView> {
                                       height: 10,
                                       width: media.width - 120,
                                       backgroundColor: TColor.primaryColor1,
-                                      foregrondColor: const Color(0xffFFB2B1),
                                       ratio: (double.tryParse(iObj["diff_per"]
                                                   .toString()) ??
                                               0.0) /
@@ -573,6 +572,7 @@ class _ResultViewState extends State<ResultView> {
                                       curve: Curves.fastLinearToSlowEaseIn,
                                       duration: const Duration(seconds: 3),
                                       borderRadius: BorderRadius.circular(5),
+                                      foregroundColor: const Color(0xffFFB2B1),
                                     ),
                                     SizedBox(
                                       width: 25,

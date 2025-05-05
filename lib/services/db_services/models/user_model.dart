@@ -4,20 +4,30 @@ import 'package:fitness/services/db_services/models/model_constant.dart';
 class UserModel implements AppModel {
   final String uid;
   final String email;
-  final String name;
+  final String? name;
   final String? photoUrl;
   final String? height;
   final String? weight;
   final String? age;
+  final String? allergyCondition;
+  final String? medicalCondition;
+  final String? dietaryPreference;
+  final String? currentInjuryCondition;
+  final String? bodyShape;
 
   UserModel({
     required this.uid,
     required this.email,
-    required this.name,
+    this.name,
     this.photoUrl,
     this.height,
     this.weight,
     this.age,
+    this.allergyCondition,
+    this.medicalCondition,
+    this.dietaryPreference,
+    this.currentInjuryCondition,
+    this.bodyShape,
   });
 
   UserModel.newUser({
@@ -28,6 +38,11 @@ class UserModel implements AppModel {
     this.height,
     this.weight,
     this.age,
+    this.allergyCondition,
+    this.medicalCondition,
+    this.dietaryPreference,
+    this.currentInjuryCondition,
+    this.bodyShape,
   });
 
   UserModel copyWith({
@@ -38,6 +53,11 @@ class UserModel implements AppModel {
     String? height,
     String? weight,
     String? age,
+    String? allergyCondition,
+    String? medicalCondition,
+    String? dietaryPreference,
+    String? currentInjuryCondition,
+    String? bodyShape,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -47,6 +67,12 @@ class UserModel implements AppModel {
       height: height ?? this.height,
       weight: weight ?? this.weight,
       age: age ?? this.age,
+      allergyCondition: allergyCondition ?? this.allergyCondition,
+      medicalCondition: medicalCondition ?? this.medicalCondition,
+      dietaryPreference: dietaryPreference ?? this.dietaryPreference,
+      currentInjuryCondition:
+          currentInjuryCondition ?? this.currentInjuryCondition,
+      bodyShape: bodyShape ?? this.bodyShape,
     );
   }
 
@@ -60,6 +86,11 @@ class UserModel implements AppModel {
       ModelConstant.height: height,
       ModelConstant.weight: weight,
       ModelConstant.age: age,
+      ModelConstant.allergyCondition: allergyCondition,
+      ModelConstant.medicalCondition: medicalCondition,
+      ModelConstant.dietaryPreference: dietaryPreference,
+      ModelConstant.currentInjuryCondition: currentInjuryCondition,
+      ModelConstant.bodyShape: bodyShape,
     };
   }
 
@@ -72,6 +103,11 @@ class UserModel implements AppModel {
       height: map[ModelConstant.height],
       weight: map[ModelConstant.weight],
       age: map[ModelConstant.age],
+      allergyCondition: map[ModelConstant.allergyCondition],
+      medicalCondition: map[ModelConstant.medicalCondition],
+      dietaryPreference: map[ModelConstant.dietaryPreference],
+      currentInjuryCondition: map[ModelConstant.currentInjuryCondition],
+      bodyShape: map[ModelConstant.bodyShape],
     );
   }
 }
