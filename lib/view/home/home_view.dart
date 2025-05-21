@@ -164,7 +164,7 @@ class _HomeViewState extends State<HomeView> {
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.network(
                                         snapshot.data?.photoUrl ??
-                                            "https://th.bing.com/th/id/OIP.9V3BIGWmqMIcS6B__g7O6QAAAA?rs=1&pid=ImgDetMain",
+                                            "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
                                         width: 40,
                                         height: 40,
                                         fit: BoxFit.cover,
