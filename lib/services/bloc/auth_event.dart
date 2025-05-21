@@ -40,6 +40,7 @@ class AuthEventRegister extends AuthEvent {
 class AuthEventDoProfileCompletion extends AuthEvent {
   final String? height;
   final String? weight;
+  final String? gender;
   final String? age;
   final String? allergyCondition;
   final String? medicalCondition;
@@ -49,6 +50,7 @@ class AuthEventDoProfileCompletion extends AuthEvent {
   const AuthEventDoProfileCompletion({
     this.height,
     this.weight,
+    this.gender,
     this.age,
     this.allergyCondition,
     this.medicalCondition,

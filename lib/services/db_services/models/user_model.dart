@@ -9,6 +9,7 @@ class UserModel implements AppModel {
   final String? height;
   final String? weight;
   final String? age;
+  final String? gender;
   final String? allergyCondition;
   final String? medicalCondition;
   final String? dietaryPreference;
@@ -19,6 +20,7 @@ class UserModel implements AppModel {
     required this.uid,
     required this.email,
     this.name,
+    this.gender,
     this.photoUrl,
     this.height,
     this.weight,
@@ -35,6 +37,7 @@ class UserModel implements AppModel {
     required this.email,
     required this.name,
     this.photoUrl,
+    this.gender,
     this.height,
     this.weight,
     this.age,
@@ -53,6 +56,7 @@ class UserModel implements AppModel {
     String? height,
     String? weight,
     String? age,
+    String? gender,
     String? allergyCondition,
     String? medicalCondition,
     String? dietaryPreference,
@@ -63,6 +67,7 @@ class UserModel implements AppModel {
       uid: uid ?? this.uid,
       email: email ?? this.email,
       name: name ?? this.name,
+      gender: gender ?? this.gender,
       photoUrl: photoUrl ?? this.photoUrl,
       height: height ?? this.height,
       weight: weight ?? this.weight,
@@ -80,6 +85,7 @@ class UserModel implements AppModel {
   Map<String, dynamic> toMap() {
     return {
       ModelConstant.uid: uid,
+      ModelConstant.gender: gender,
       ModelConstant.email: email,
       ModelConstant.name: name,
       ModelConstant.photoUrl: photoUrl,
@@ -97,6 +103,7 @@ class UserModel implements AppModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uid: map[ModelConstant.uid],
+      gender: map[ModelConstant.gender],
       email: map[ModelConstant.email],
       name: map[ModelConstant.name],
       photoUrl: map[ModelConstant.photoUrl],

@@ -104,6 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventDoProfileCompletion>((event, emit) async {
       final height = event.height;
       final weight = event.weight;
+      final gender = event.gender;
       final age = event.age;
       final allergyCondition = event.allergyCondition;
       final medicalCondition = event.medicalCondition;
@@ -118,6 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: authUser.email,
             height: height,
             weight: weight,
+            gender: gender,
             age: age,
             allergyCondition: allergyCondition,
             medicalCondition: medicalCondition,
@@ -230,6 +232,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             name: "Unknown",
           ));
         }
+        if (dbUser?.age == null ||
+            dbUser?.weight == null ||
+            dbUser?.height == null ||
+            dbUser?.allergyCondition == null ||
+            dbUser?.medicalCondition == null ||
+            dbUser?.dietaryPreference == null ||
+            dbUser?.currentInjuryCondition == null) {
+          emit(AuthStateProfileCompletion(
+            isLoading: false,
+            user: user,
+            dbModel: dbProvider,
+            exception: null,
+          ));
+          return;
+        }
+        if (dbUser?.bodyShape == null) {
+          emit(AuthStateSelectBodyShape(
+            isLoading: false,
+            // user: user,
+            // dbModel: dbProvider,
+          ));
+          return;
+        }
+        emit(AuthStateLoggedIn(
+          user: user,
+          isLoading: false,
+          dbModel: dbProvider,
+        ));
+
         emit(AuthStateLoggedIn(
             user: user, isLoading: false, dbModel: dbProvider));
       } on Exception catch (e) {

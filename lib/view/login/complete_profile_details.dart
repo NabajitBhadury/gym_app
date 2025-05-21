@@ -1,13 +1,21 @@
 import 'package:fitness/common_widget/round_textfield.dart';
 import 'package:fitness/services/auth/auth_exceptions.dart';
+import 'package:fitness/services/auth/auth_user.dart';
 import 'package:fitness/services/bloc/auth_bloc.dart';
 import 'package:fitness/services/bloc/auth_event.dart';
 import 'package:fitness/services/bloc/auth_state.dart';
+import 'package:fitness/services/db_services/db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CompleteProfileDetailsScreen extends StatefulWidget {
-  const CompleteProfileDetailsScreen({super.key});
+  final DBModel dbModel;
+  final AuthUser authUser;
+  const CompleteProfileDetailsScreen({
+    super.key,
+    required this.dbModel,
+    required this.authUser,
+  });
 
   @override
   State<CompleteProfileDetailsScreen> createState() =>
@@ -17,6 +25,7 @@ class CompleteProfileDetailsScreen extends StatefulWidget {
 class _CompleteProfileDetailsScreenState
     extends State<CompleteProfileDetailsScreen> {
   late final TextEditingController _heightController;
+  late final TextEditingController _genderController;
   late final TextEditingController _weightController;
   late final TextEditingController _ageController;
   late final TextEditingController _allergyConditionController;
@@ -28,6 +37,7 @@ class _CompleteProfileDetailsScreenState
   @override
   void initState() {
     _heightController = TextEditingController();
+    _genderController = TextEditingController();
     _weightController = TextEditingController();
     _ageController = TextEditingController();
     _allergyConditionController = TextEditingController();
@@ -41,6 +51,7 @@ class _CompleteProfileDetailsScreenState
   void dispose() {
     _heightController.dispose();
     _weightController.dispose();
+    _genderController.dispose();
     _ageController.dispose();
     _allergyConditionController.dispose();
     _medicalConditionController.dispose();
@@ -145,6 +156,8 @@ class _CompleteProfileDetailsScreenState
                       },
                     ),
                     const SizedBox(height: 10),
+                    _buildGenderDropdown(),
+                    const SizedBox(height: 10),
                     RoundTextField(
                       hitText: "Enter your allergy condition",
                       keyboardType: TextInputType.text,
@@ -213,6 +226,7 @@ class _CompleteProfileDetailsScreenState
                                     _dietaryPreferenceController.text,
                                 currentInjuryCondition:
                                     _currentInjuryConditionController.text,
+                                gender: _genderController.text,
                               ));
                         },
                         child: const Text(
@@ -230,6 +244,46 @@ class _CompleteProfileDetailsScreenState
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildGenderDropdown() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.grey[100],
+          hintText: "Select your gender",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        items: const [
+          'Male',
+          'Female',
+          'Other',
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (String? value) {
+          if (value != null) {
+            setState(() {
+              _genderController.text = value;
+            });
+          }
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please select your gender';
+          }
+          return null;
+        },
       ),
     );
   }

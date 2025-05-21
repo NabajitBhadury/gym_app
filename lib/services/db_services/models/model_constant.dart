@@ -11,6 +11,7 @@ class ModelConstant {
   static const dietaryPreference = 'dietary_preference';
   static const currentInjuryCondition = 'current_injury_condition';
   static const bodyShape = 'body_shape';
+  static const gender = 'gender';
 
   // power gems
   static const totalGems = 'totalGems';
