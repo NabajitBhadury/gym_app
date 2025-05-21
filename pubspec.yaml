@@ -57,6 +57,7 @@ dependencies:
   google_generative_ai: ^0.0.1-dev
   http: ^0.13.6
   carousel_slider: ^5.0.0
+  webview_flutter: ^4.13.0
 
 dependency_overrides: 
   intl: ^0.18.1

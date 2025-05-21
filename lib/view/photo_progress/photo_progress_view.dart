@@ -1,3 +1,4 @@
+import 'package:fitness/view/photo_progress/web_view_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/colo_extension.dart';
@@ -218,8 +219,7 @@ class _PhotoProgressViewState extends State<PhotoProgressView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ComparisonView(),
+                                builder: (context) => const ComparisonView(),
                               ),
                             );
                           },
@@ -311,14 +311,13 @@ class _PhotoProgressViewState extends State<PhotoProgressView> {
       ),
       floatingActionButton: InkWell(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SleepAddAlarmView(
-          //       date: _selectedDateAppBBar,
-          //     ),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const WebViewScreen(url: 'https://www.google.com'),
+            ),
+          );
         },
         child: Container(
           width: 55,
