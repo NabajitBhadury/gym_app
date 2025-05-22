@@ -113,21 +113,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final authUser = (authProvider as FirebaseAuthProvider).getCurrentUser;
 
       try {
-        await dbProvider.updateUser(
-          UserModel(
-            uid: authUser!.id,
-            email: authUser.email,
+        var existingUser = await dbProvider.getUser(authUser!.id);
+
+        if (existingUser != null) {
+          existingUser = existingUser.copyWith(
             height: height,
             weight: weight,
-            gender: gender,
             age: age,
+            gender: gender,
             allergyCondition: allergyCondition,
             medicalCondition: medicalCondition,
             dietaryPreference: dietaryPreference,
             currentInjuryCondition: currentInjuryCondition,
-          ),
-        );
-        emit(const AuthStateSelectBodyShape(isLoading: false));
+          );
+          await dbProvider.updateUser(existingUser);
+        }
+        var eventGender = event.gender ?? 'male';
+        emit(AuthStateSelectBodyShape(isLoading: false, gender: eventGender));
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(exception: e, isLoading: false),
@@ -141,18 +143,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final authUser = (authProvider as FirebaseAuthProvider).getCurrentUser;
 
       try {
-        await dbProvider.updateUser(
-          UserModel(
-            uid: authUser!.id,
-            email: authUser.email,
+        var existingUser = await dbProvider.getUser(authUser!.id);
+        if (existingUser != null) {
+          existingUser = existingUser.copyWith(
             bodyShape: bodyShape,
-          ),
-        );
-        emit(AuthStateLoggedIn(
-          isLoading: false,
-          user: authUser,
-          dbModel: dbProvider,
-        ));
+          );
+          await dbProvider.updateUser(existingUser);
+          emit(AuthStateLoggedIn(
+            isLoading: false,
+            user: authUser,
+            dbModel: dbProvider,
+          ));
+        }
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(exception: e, isLoading: false),
@@ -238,6 +240,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             dbUser?.allergyCondition == null ||
             dbUser?.medicalCondition == null ||
             dbUser?.dietaryPreference == null ||
+            dbUser?.gender == null ||
             dbUser?.currentInjuryCondition == null) {
           emit(AuthStateProfileCompletion(
             isLoading: false,
@@ -249,9 +252,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
         if (dbUser?.bodyShape == null) {
           emit(AuthStateSelectBodyShape(
+            gender: dbUser?.gender ?? 'Male',
             isLoading: false,
-            // user: user,
-            // dbModel: dbProvider,
           ));
           return;
         }

@@ -100,9 +100,11 @@ class AuthStateHasDoneProfileCompletion extends AuthState {
 }
 
 class AuthStateSelectBodyShape extends AuthState {
+  final String gender;
   const AuthStateSelectBodyShape({
     required super.isLoading,
     super.loadingText,
+    required this.gender,
   });
 }
 

@@ -5,39 +5,36 @@ import 'package:fitness/services/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BodyShapeSelectionScreen extends StatefulWidget {
-  const BodyShapeSelectionScreen({super.key});
+class BodyShapeSelectionMaleScreen extends StatefulWidget {
+  const BodyShapeSelectionMaleScreen({super.key});
 
   @override
-  State<BodyShapeSelectionScreen> createState() =>
-      _BodyShapeSelectionScreenState();
+  State<BodyShapeSelectionMaleScreen> createState() =>
+      _BodyShapeSelectionMaleScreenState();
 }
 
-class _BodyShapeSelectionScreenState extends State<BodyShapeSelectionScreen> {
+class _BodyShapeSelectionMaleScreenState
+    extends State<BodyShapeSelectionMaleScreen> {
   final PageController _pageController = PageController();
   int _selectedPage = 0;
 
   final List<Map<String, String>> bodyShapes = [
     {
-      'image': 'assets/img/hourglass.png',
-      'label': 'Hour Glass Shape',
+      'image': 'assets/img/goal1.png',
+      'label': 'Improve Shape',
     },
     {
-      'image': 'assets/img/triangle.png',
-      'label': 'Triangle Body Shape',
+      'image': 'assets/img/goal2.png',
+      'label': 'Lean & Tone',
     },
     {
-      'image': 'assets/img/rectangle.png',
-      'label': 'Rectangle Body Shape',
+      'image': 'assets/img/goal3.png',
+      'label': 'Lose a Fat',
     },
     {
-      'image': 'assets/img/athletic.png',
-      'label': 'Athletic Body Shape',
-    },
-    {
-      'image': 'assets/img/round.png',
-      'label': 'Round Body Shape',
-    },
+      'image': 'assets/img/goal4.png',
+      'label': 'Better Shape',
+    }
   ];
 
   @override
