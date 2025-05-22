@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/workout_row.dart';
 import 'package:fitness/services/db_services/db_model.dart';
+import 'package:fitness/view/photo_progress/power_gems_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
@@ -211,12 +212,24 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   child: Row(
                                     children: [
-                                      Text(
-                                        "🔥${powerGemsSnapshot.data?.totalGems ?? 0}",
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                                      GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PowerGemsPage(
+                                              powergemsNumber: powerGemsSnapshot
+                                                      .data?.totalGems ??
+                                                  0,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "🔥${powerGemsSnapshot.data?.totalGems ?? 0}",
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ],
