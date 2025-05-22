@@ -19,24 +19,24 @@ class _BodyShapeSelectionScreenState extends State<BodyShapeSelectionScreen> {
 
   final List<Map<String, String>> bodyShapes = [
     {
-      'image': 'assets/hourglass.png',
+      'image': 'assets/img/hourglass.png',
       'label': 'Hour Glass Shape',
     },
     {
-      'image': 'assets/triangle.png',
+      'image': 'assets/img/triangle.png',
       'label': 'Triangle Body Shape',
     },
     {
-      'image': 'assets/rectangle.png',
+      'image': 'assets/img/rectangle.png',
       'label': 'Rectangle Body Shape',
     },
     {
-      'image': 'assets/athletic.png',
-      'label': 'Rectangle Body Shape',
+      'image': 'assets/img/athletic.png',
+      'label': 'Athletic Body Shape',
     },
     {
-      'image': 'assets/round.png',
-      'label': 'Rectangle Body Shape',
+      'image': 'assets/img/round.png',
+      'label': 'Round Body Shape',
     },
   ];
 

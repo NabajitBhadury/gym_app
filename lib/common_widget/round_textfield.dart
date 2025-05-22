@@ -47,7 +47,7 @@ class RoundTextField extends StatelessWidget {
                 width: 20,
                 height: 20,
                 child: Image.asset(
-                  icon!,
+                  icon ?? "assets/img/email.png",
                   width: 20,
                   height: 20,
                   fit: BoxFit.contain,
